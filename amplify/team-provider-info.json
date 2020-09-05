@@ -1,0 +1,23 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-misinfo-dev-190437-authRole",
+            "UnauthRoleArn": "arn:aws:iam::415898136109:role/amplify-misinfo-dev-190437-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::415898136109:role/amplify-misinfo-dev-190437-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-misinfo-dev-190437-deployment",
+            "UnauthRoleName": "amplify-misinfo-dev-190437-unauthRole",
+            "StackName": "amplify-misinfo-dev-190437",
+            "StackId": "arn:aws:cloudformation:us-east-1:415898136109:stack/amplify-misinfo-dev-190437/27c7cdf0-ef1c-11ea-8b67-0a029b5a039d",
+            "AmplifyAppId": "d3qepj5pbqin54"
+        },
+        "categories": {
+            "hosting": {
+                "amplifyhosting": {
+                    "appId": "d3qepj5pbqin54",
+                    "type": "cicd"
+                }
+            }
+        }
+    }
+}
