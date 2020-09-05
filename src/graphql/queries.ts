@@ -2,28 +2,32 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getTodo = /* GraphQL */ `
-  query GetTodo($id: ID!) {
-    getTodo(id: $id) {
+export const getMisInfo = /* GraphQL */ `
+  query GetMisInfo($id: ID!) {
+    getMisInfo(id: $id) {
       id
-      name
+      fullname
+      email
       description
+      url
       createdAt
       updatedAt
     }
   }
 `;
-export const listTodos = /* GraphQL */ `
-  query ListTodos(
-    $filter: ModelTodoFilterInput
+export const listMisInfos = /* GraphQL */ `
+  query ListMisInfos(
+    $filter: ModelMisInfoFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listTodos(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listMisInfos(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        name
+        fullname
+        email
         description
+        url
         createdAt
         updatedAt
       }

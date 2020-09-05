@@ -1,8 +1,8 @@
 /* src/App.js */
 import React, { useEffect, useState } from 'react'
 import Amplify, { API, graphqlOperation } from 'aws-amplify'
-import { createTodo } from './graphql/mutations'
-import { listTodos } from './graphql/queries'
+import { createMisInfo } from './graphql/mutations'
+import { listMisInfos } from './graphql/queries'
 
 import awsExports from "./aws-exports";
 Amplify.configure(awsExports);
@@ -11,57 +11,69 @@ const initialState = { name: '', description: '' }
 
 const App = () => {
   const [formState, setFormState] = useState(initialState)
-  const [todos, setTodos] = useState([])
+  const [misInfos, setMisInfos] = useState([])
 
   useEffect(() => {
-    fetchTodos()
+    fetchMisInfos()
   }, [])
 
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value })
   }
 
-  async function fetchTodos() {
+  async function fetchMisInfos() {
     try {
-      const todoData = await API.graphql(graphqlOperation(listTodos))
-      const todos = todoData.data.listTodos.items
-      setTodos(todos)
-    } catch (err) { console.log('error fetching todos') }
+      const misInfoData = await API.graphql(graphqlOperation(listMisInfos))
+      const misInfos = misInfoData.data.listMisInfos.items
+      setMisInfos(misInfos)
+    } catch (err) { console.log('error fetching misinformation') }
   }
 
-  async function addTodo() {
+  async function addMisInfo() {
     try {
       if (!formState.name || !formState.description) return
-      const todo = { ...formState }
-      setTodos([...todos, todo])
+      const misInfo = { ...formState }
+      setMisInfos([...misInfos, misInfo])
       setFormState(initialState)
-      await API.graphql(graphqlOperation(createTodo, {input: todo}))
+      await API.graphql(graphqlOperation(createMisInfo, {input: misInfo}))
     } catch (err) {
-      console.log('error creating todo:', err)
+      console.log('error creating misinformation:', err)
     }
   }
 
   return (
     <div style={styles.container}>
-      <h2>Amplify Todos</h2>
+      <h2>MisInfo</h2>
       <input
-        onChange={event => setInput('name', event.target.value)}
+        onChange={event => setInput('fullname', event.target.value)}
         style={styles.input}
-        value={formState.name} 
-        placeholder="Name"
+        value={formState.fullname} 
+        placeholder="Full Name"
       />
+      <input
+        onChange={event => setInput('email', event.target.value)}
+        style={styles.input}
+        value={formState.email}
+        placeholder="Email"
+      /> 
+      <input
+        onChange={event => setInput('url', event.target.value)}
+        style={styles.input}
+        value={formState.url}
+        placeholder="URL"
+      />            
       <input
         onChange={event => setInput('description', event.target.value)}
         style={styles.input}
         value={formState.description}
         placeholder="Description"
       />
-      <button style={styles.button} onClick={addTodo}>Create Todo</button>
+      <button style={styles.button} onClick={addMisInfo}>Create Misinformation</button>
       {
-        todos.map((todo, index) => (
-          <div key={todo.id ? todo.id : index} style={styles.todo}>
-            <p style={styles.todoName}>{todo.name}</p>
-            <p style={styles.todoDescription}>{todo.description}</p>
+        misInfos.map((misInfo, index) => (
+          <div key={misInfo.id ? misInfo.id : index} style={styles.misInfo}>
+            <p style={styles.misInfoFullName}>{misInfo.fullName}</p>
+            <p style={styles.misInfoDescription}>{misInfo.description}</p>
           </div>
         ))
       }
@@ -71,10 +83,12 @@ const App = () => {
 
 const styles = {
   container: { width: 400, margin: '0 auto', display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center', padding: 20 },
-  todo: {  marginBottom: 15 },
+  misInfo: {  marginBottom: 15 },
   input: { border: 'none', backgroundColor: '#ddd', marginBottom: 10, padding: 8, fontSize: 18 },
-  todoName: { fontSize: 20, fontWeight: 'bold' },
-  todoDescription: { marginBottom: 0 },
+  misInfoFullName: { fontSize: 20, fontWeight: 'bold' },
+  misInfoUrl: { fontSize: 20, fontWeight: 'bold' },
+  misInfoEmail: { fontSize: 20, fontWeight: 'bold' },
+  misInfoDescription: { marginBottom: 0 },
   button: { backgroundColor: 'black', color: 'white', outline: 'none', fontSize: 18, padding: '12px 0px' }
 }
 

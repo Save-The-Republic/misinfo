@@ -1,5 +1,7 @@
-type Todo @model {
+type MisInfo @model {
   id: ID!
-  name: String!
-  description: String
+  fullname: String
+  email: String
+  description: String!
+  url: String!
 }
