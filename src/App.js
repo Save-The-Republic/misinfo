@@ -7,7 +7,7 @@ import { listMisInfos } from './graphql/queries'
 import awsExports from "./aws-exports";
 Amplify.configure(awsExports);
 
-const initialState = { name: '', description: '' }
+const initialState = { fullname: '', email: '', description: '', url: '' }
 
 const App = () => {
   const [formState, setFormState] = useState(initialState)
@@ -31,11 +31,12 @@ const App = () => {
 
   async function addMisInfo() {
     try {
-      if (!formState.name || !formState.description) return
+      if (!formState.url || !formState.description) return
       const misInfo = { ...formState }
       setMisInfos([...misInfos, misInfo])
       setFormState(initialState)
       await API.graphql(graphqlOperation(createMisInfo, {input: misInfo}))
+      alert('Thank You!')
     } catch (err) {
       console.log('error creating misinformation:', err)
     }
@@ -43,7 +44,12 @@ const App = () => {
 
   return (
     <div style={styles.container}>
-      <h2>MisInfo</h2>
+      <i>Only the URL and Description are required. If you enter your email we may contact you if we have questions about your submission.</i>
+      <br/>
+      <div>
+      Please enter the misinformation you would like to share.
+      </div>       
+      <h2>Misinformation</h2>
       <input
         onChange={event => setInput('fullname', event.target.value)}
         style={styles.input}
@@ -68,15 +74,15 @@ const App = () => {
         value={formState.description}
         placeholder="Description"
       />
-      <button style={styles.button} onClick={addMisInfo}>Create Misinformation</button>
-      {
+      <button style={styles.button} onClick={addMisInfo}>Save Misinformation</button>
+      {/* {
         misInfos.map((misInfo, index) => (
           <div key={misInfo.id ? misInfo.id : index} style={styles.misInfo}>
             <p style={styles.misInfoFullName}>{misInfo.fullName}</p>
             <p style={styles.misInfoDescription}>{misInfo.description}</p>
           </div>
         ))
-      }
+      } */}
     </div>
   )
 }
